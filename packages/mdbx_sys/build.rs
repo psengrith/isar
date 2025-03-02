@@ -58,15 +58,25 @@ fn main() {
 
     let is_android = env::var("CARGO_CFG_TARGET_OS").unwrap() == "android";
 
-    let _ = fs::remove_dir_all("libmdbx");
+    let mut mdbx = PathBuf::from(&env::var("CARGO_MANIFEST_DIR").unwrap());
+    mdbx.push("libmdbx");
 
-    Command::new("git")
-        .arg("clone")
-        .arg(LIBMDBX_REPO)
-        .arg("--branch")
-        .arg(LIBMDBX_TAG)
-        .output()
-        .unwrap();
+    if !mdbx.try_exists().unwrap() {
+        Command::new("git")
+            .arg("clone")
+            .arg(LIBMDBX_REPO)
+            .arg("--branch")
+            .arg(LIBMDBX_TAG)
+            .current_dir(env::var("CARGO_MANIFEST_DIR").unwrap())
+            .output()
+            .unwrap();
+    } else {
+        Command::new("git")
+            .arg("stash")
+            .current_dir(mdbx.to_str().unwrap())
+            .output()
+            .unwrap();
+    }
 
     Command::new("make")
         .arg("release-assets")
@@ -74,8 +84,6 @@ fn main() {
         .output()
         .unwrap();
 
-    let mut mdbx = PathBuf::from(&env::var("CARGO_MANIFEST_DIR").unwrap());
-    mdbx.push("libmdbx");
     mdbx.push("dist");
 
     let core_path = mdbx.join("mdbx.c");

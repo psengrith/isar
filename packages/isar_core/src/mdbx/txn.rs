@@ -5,6 +5,7 @@ use std::marker::PhantomData;
 
 pub struct Txn<'env> {
     pub(crate) txn: *mut ffi::MDBX_txn,
+    #[allow(dead_code)]
     pub write: bool,
     _marker: PhantomData<&'env ()>,
 }

@@ -9,7 +9,6 @@ use crate::error::{schema_error, Result};
 use crate::schema::collection_schema::CollectionSchema;
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
-use xxhash_rust::xxh3::xxh3_64_with_seed;
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Schema {
