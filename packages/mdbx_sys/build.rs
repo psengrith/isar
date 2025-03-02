@@ -95,6 +95,14 @@ fn main() {
     }
     fs::write(core_path.as_path(), core).unwrap();
 
+    if env::var("TARGET").unwrap().contains("windows") {
+        let h_path = mdbx.join("mdbx.h");
+        let mut headers = fs::read_to_string(h_path.as_path()).expect("dist/mdbx.h was not found!");
+        // A temporary workaround since -DMDBX_LOCK_SUFFIX has no effect.
+        headers = headers.replace("\"-lck\"", "\".lock\"");
+        fs::write(h_path.as_path(), headers).unwrap();
+    }
+
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
 
     let bindings = bindgen::Builder::default()
