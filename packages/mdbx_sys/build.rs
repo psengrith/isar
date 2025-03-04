@@ -173,6 +173,14 @@ fn main() {
             .define("MDBX_OSX_SPEED_INSTEADOF_DURABILITY", "1")
             .define("MDBX_HAVE_BUILTIN_CPU_SUPPORTS", "0")
             .define("NDEBUG", "1")
+            .define(
+                "MACOSX_DEPLOYMENT_TARGET",
+                env::var("IPHONEOS_DEPLOYMENT_TARGET").unwrap().as_str(),
+            )
+            .define(
+                "CMAKE_OSX_DEPLOYMENT_TARGET",
+                env::var("IPHONEOS_DEPLOYMENT_TARGET").unwrap().as_str(),
+            )
             .file(mdbx.join("mdbx.c"))
             .compile("libmdbx.a");
     }

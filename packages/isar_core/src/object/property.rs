@@ -3,6 +3,7 @@ use xxhash_rust::xxh3::xxh3_64;
 use super::data_type::DataType;
 
 #[derive(Clone, Eq, PartialEq)]
+#[cfg_attr(debug_assertions, derive(Debug))]
 pub struct Property {
     pub name: String,
     pub data_type: DataType,
