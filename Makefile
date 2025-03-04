@@ -6,9 +6,14 @@ CXXFLAGS="-mmacosx-version-min=${MACOSX_DEPLOYMENT_TARGET}"
 all: format build test
 
 format:
-	dart format examples/pub/ packages/isar/ packages/isar_generator/ \
-	 packages/isar_test/ packages/isar_web/ packages/isar_flutter_libs/ \
-	 packages/isar_inspector/
+	cd examples/pub/ && dart format .
+	cd packages/isar/ && dart format .
+	cd packages/isar_generator/ && dart format .
+	cd packages/isar_test/ && dart format .
+	cd packages/isar_web/ && dart format .
+	cd packages/isar_flutter_libs/ && dart format .
+	cd packages/isar_inspector/ && dart format .
+	dart format .
 
 build:
 	cargo build --release
