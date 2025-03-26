@@ -3,11 +3,11 @@ pub(crate) mod isar_watchers;
 pub(crate) mod watcher;
 
 pub struct WatchHandle {
-    stop_callback: Option<Box<dyn FnOnce()>>,
+    stop_callback: Option<Box<dyn FnOnce() + Send + Sync>>,
 }
 
 impl WatchHandle {
-    pub(crate) fn new(stop_callback: Box<dyn FnOnce()>) -> Self {
+    pub(crate) fn new(stop_callback: Box<dyn FnOnce() + Send + Sync>) -> Self {
         WatchHandle {
             stop_callback: Some(stop_callback),
         }

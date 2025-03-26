@@ -5,7 +5,7 @@ use intmap::IntMap;
 use itertools::Itertools;
 use std::sync::Arc;
 
-pub(crate) type WatcherModifier = Box<dyn FnOnce(&mut IsarWatchers) + Send + 'static>;
+pub(crate) type WatcherModifier = Box<dyn FnOnce(&mut IsarWatchers) + Send + Sync + 'static>;
 
 pub(crate) struct IsarWatchers {
     modifiers: Receiver<WatcherModifier>,
